@@ -86,5 +86,27 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-    res.send("Logout successful");
+    try {
+        const refreshToken = req.cookies.refreshToken;
+        if (!refreshToken) {
+            return res.status(400).json({ message: "Refresh token not found" });
+        } else {
+            const decoded = jwt.verify(
+                refreshToken,
+                process.env.REFRESH_TOKEN_SECRET,
+            );
+            await redisClient.del(`refreshToken:${decoded.userId}`);
+            if (!decoded) {
+                return res
+                    .status(400)
+                    .json({ message: "Invalid refresh token" });
+            }
+        }
+        res.clearCookie("accessToken");
+        res.clearCookie("refreshToken");
+        res.status(200).json({ message: "Logout successful" });
+    } catch (error) {
+        console.log(`Error logging out: ${error.message}`);
+        res.status(500).json({ message: "Error logging out", error });
+    }
 };
