@@ -7,7 +7,7 @@ export const getAllProducts = async (req, res) => {
         const products = await Product.find({});
         res.json({ products });
     } catch (error) {
-        console.error(`Error fetching products: ${error.message}`);
+        console.log(`Error fetching products: ${error.message}`);
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
@@ -35,7 +35,7 @@ export const getFeaturedProducts = async (req, res) => {
         await redisClient.set("featured_products");
         res.json({ featuredProducts });
     } catch (error) {
-        console.error(`Error fetching featured products: ${error.message}`);
+        console.log(`Error fetching featured products: ${error.message}`);
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
@@ -64,7 +64,7 @@ export const createProduct = async (req, res) => {
 
         res.status(201).json(product);
     } catch (error) {
-        console.error(`Error creating product: ${error.message}`);
+        console.log(`Error creating product: ${error.message}`);
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
@@ -83,7 +83,7 @@ export const deleteProduct = async (req, res) => {
                 await cloudinary.uploader.destroy(`products/${publicId}`);
                 console.log(`Deleted image from Cloudinary: ${publicId}`);
             } catch (error) {
-                console.error(
+                console.log(
                     `Error deleting image from Cloudinary: ${error.message}`,
                 );
             }
@@ -93,7 +93,7 @@ export const deleteProduct = async (req, res) => {
 
         res.json({ message: "Product deleted successfully" });
     } catch (error) {
-        console.error(`Error deleting product: ${error.message}`);
+        console.log(`Error deleting product: ${error.message}`);
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
@@ -114,7 +114,7 @@ export const getRecommendedProducts = async (req, res) => {
         ]);
         res.json(recommendedProducts);
     } catch (error) {
-        console.error(`Error fetching recommended products: ${error.message}`);
+        console.log(`Error fetching recommended products: ${error.message}`);
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
@@ -125,7 +125,7 @@ export const getProductsByCategory = async (req, res) => {
         const products = await Product.find({ category });
         res.json(products);
     } catch (error) {
-        console.error(`Error fetching products by category: ${error.message}`);
+        console.log(`Error fetching products by category: ${error.message}`);
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
@@ -142,9 +142,7 @@ async function updateFeaturedProductsCache() {
             JSON.stringify(featuredProducts),
         );
     } catch (error) {
-        console.error(
-            `Error updating featured products cache: ${error.message}`,
-        );
+        console.log(`Error updating featured products cache: ${error.message}`);
     }
 }
 
@@ -160,7 +158,7 @@ export const toggleFeaturedProducts = async (req, res) => {
             res.status(404).json({ message: "Product not found" });
         }
     } catch (error) {
-        console.error(`Error toggling featured status: ${error.message}`);
+        console.log(`Error toggling featured status: ${error.message}`);
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
