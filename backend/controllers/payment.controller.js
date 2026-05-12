@@ -77,7 +77,7 @@ export const createCheckoutSession = async (req, res) => {
             await createNewCoupon(req.user._id);
         }
         res.status(200).json({
-            id: session.id,
+            url: session.url,
             totalAmount: totalAmount / 100,
         });
     } catch (error) {
