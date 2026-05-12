@@ -10,6 +10,7 @@ import { useUserStore } from "./stores/useUserStore.js";
 import HomePage from "./pages/HomePage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import AdminPage from "./pages/AdminPage.jsx";
 
 // Components
 import Navbar from "./components/Navbar.jsx";
@@ -42,6 +43,16 @@ function App() {
                     <Route
                         path="/login"
                         element={!user ? <LoginPage /> : <Navigate to="/" />}
+                    />
+                    <Route
+                        path="/secret-dashboard"
+                        element={
+                            user?.role === "admin" ? (
+                                <AdminPage />
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
                     />
                 </Routes>
             </div>

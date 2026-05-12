@@ -44,7 +44,6 @@ export const protectRoute = async (req, res, next) => {
             error: error.message,
         });
     }
-    next();
 };
 
 export const adminRoute = (req, res, next) => {
