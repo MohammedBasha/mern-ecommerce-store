@@ -5,6 +5,7 @@ import { useEffect } from "react";
 
 // Stores
 import { useUserStore } from "./stores/useUserStore.js";
+import { useCartStore } from "./stores/useCartStore";
 
 // Pages
 import HomePage from "./pages/HomePage.jsx";
@@ -12,6 +13,7 @@ import SignUpPage from "./pages/SignUpPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 import CategoryPage from "./pages/CategoryPage";
+import CartPage from "./pages/CartPage";
 
 // Components
 import Navbar from "./components/Navbar.jsx";
@@ -19,9 +21,18 @@ import LoadingSpinner from "./components/LoadingSpinner";
 
 function App() {
     const { user, checkAuth, checkingAuth } = useUserStore();
+
+    const { getCartItems } = useCartStore();
+
     useEffect(() => {
         checkAuth();
     }, [checkAuth]);
+
+    useEffect(() => {
+        if (!user) return;
+
+        getCartItems();
+    }, [getCartItems, user]);
 
     if (checkingAuth) return <LoadingSpinner />;
 
@@ -58,6 +69,10 @@ function App() {
                     <Route
                         path="/category/:category"
                         element={<CategoryPage />}
+                    />
+                    <Route
+                        path="/cart"
+                        element={user ? <CartPage /> : <Navigate to="/login" />}
                     />
                 </Routes>
             </div>
