@@ -32,7 +32,10 @@ export const getFeaturedProducts = async (req, res) => {
         }
 
         // Cache the featured products in Redis for future requests
-        await redisClient.set("featured_products");
+        await redisClient.set(
+            "featured_products",
+            JSON.stringify(featuredProducts),
+        );
         res.json({ featuredProducts });
     } catch (error) {
         console.log(`Error fetching featured products: ${error.message}`);
