@@ -18,7 +18,9 @@ const PurchaseSuccessPage = () => {
                 });
                 clearCart();
             } catch (error) {
-                console.error("Error handling checkout success:", error);
+                console.error(
+                    `Checkout success handling failed: ${error.response?.data?.message || error.message}`,
+                );
             } finally {
                 setIsProcessing(false);
             }

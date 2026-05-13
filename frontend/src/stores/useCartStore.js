@@ -78,7 +78,8 @@ export const useCartStore = create((set, get) => ({
         } catch (error) {
             toast.error(
                 error.response.data.message ||
-                    "An error occurred while adding to cart",
+                    "An error occurred while adding to cart - try loging in",
+                { id: "add-to-cart-error" },
             );
         }
     },
