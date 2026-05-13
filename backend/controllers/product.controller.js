@@ -89,7 +89,12 @@ export const deleteProduct = async (req, res) => {
             }
         }
 
-        await product.findByIdAndDelete(req.params.id);
+        await Product.findByIdAndDelete(req.params.id);
+
+        // If the deleted product was featured, clear the featured products cache
+        if (product.isFeatured) {
+            await redisClient.del("featured_products");
+        }
 
         res.json({ message: "Product deleted successfully" });
     } catch (error) {
