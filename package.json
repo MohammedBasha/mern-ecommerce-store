@@ -6,7 +6,8 @@
     "scripts": {
         "dev": "nodemon backend/server.js",
         "start": "node backend/server.js",
-        "test": "jest --runInBand"
+        "test": "jest --runInBand",
+        "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
     },
     "jest": {
         "testEnvironment": "node",
